@@ -1,0 +1,20 @@
+[
+  {
+    "courseCode": "CS101",
+    "courseName": "Introduction to Computer Science",
+    "credits": 3,
+    "instructor": "Dr. Alan Turing"
+  },
+  {
+    "courseCode": "MA203",
+    "courseName": "Calculus III",
+    "credits": 4,
+    "instructor": "Dr. Isaac Newton"
+  },
+  {
+    "courseCode": "EN101",
+    "courseName": "English Composition",
+    "credits": 3,
+    "instructor": "Dr. Jane Austen"
+  }
+]
