@@ -5,7 +5,7 @@
         "email": "john.doe@example.com",
         "age": 21,
         "currentCollege": "State University",
-        "courses": "CS101",
+        "courses": ["CS101"],
         "gpa": 3.8,
         "enrollmentDate": "2022-08-25T00:00:00.000Z"
     },
@@ -15,7 +15,7 @@
         "email": "jane.smith@example.com",
         "age": 20,
         "currentCollege": "State University",
-        "courses": "EN101",
+        "courses": ["EN101"],
         "gpa": 3.9,
         "enrollmentDate": "2023-01-15T00:00:00.000Z"
     }
