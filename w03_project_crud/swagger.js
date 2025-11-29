@@ -5,8 +5,8 @@ const doc = {
     title: 'School Management API',
     description: 'API for managing students and courses with OAuth authentication',
   },
-  host: 'localhost:8080',
-  schemes: ['http', 'https'],
+  host: 'cse341-crud-w03.onrender.com',
+  schemes: ['https', 'http'],
 };
 
 const outputFile = './swagger.json';

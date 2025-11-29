@@ -5,19 +5,26 @@
     "description": "API for managing students and courses with OAuth authentication",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "cse341-crud-w03.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/api-docs": {
       "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "login",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         }
       }
