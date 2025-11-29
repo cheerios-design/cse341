@@ -3,19 +3,17 @@ const router = express.Router();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
 
-const customHtml = (req) => {
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', (req, res, next) => {
   const loginSuccess = req.query.login === 'success';
   const userName = req.session && req.session.user ? req.session.user.displayName || req.session.user.username : null;
   
-  return `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>API Documentation</title>
-      <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
-      <style>
+  if (loginSuccess && userName) {
+    // Inject custom HTML with success popup
+    const customHtml = swaggerUi.generateHTML(swaggerDocument);
+    const modifiedHtml = customHtml.replace(
+      '</head>',
+      `<style>
         .login-popup {
           position: fixed;
           top: 20px;
@@ -47,49 +45,28 @@ const customHtml = (req) => {
             transform: translateX(400px);
           }
         }
-      </style>
-    </head>
-    <body>
-      ${loginSuccess && userName ? `
+      </style></head>`
+    ).replace(
+      '<body>',
+      `<body>
         <div class="login-popup" id="loginPopup">
           ✓ Successfully logged in as ${userName}!
         </div>
         <script>
           setTimeout(() => {
             const popup = document.getElementById('loginPopup');
-            popup.classList.add('fade-out');
-            setTimeout(() => popup.remove(), 500);
+            if (popup) {
+              popup.classList.add('fade-out');
+              setTimeout(() => popup.remove(), 500);
+            }
           }, 3000);
-        </script>
-      ` : ''}
-      <div id="swagger-ui"></div>
-      <script src="./swagger-ui-bundle.js"></script>
-      <script src="./swagger-ui-standalone-preset.js"></script>
-      <script>
-        window.onload = function() {
-          window.ui = SwaggerUIBundle({
-            url: './swagger.json',
-            dom_id: '#swagger-ui',
-            deepLinking: true,
-            presets: [
-              SwaggerUIBundle.presets.apis,
-              SwaggerUIStandalonePreset
-            ],
-            plugins: [
-              SwaggerUIBundle.plugins.DownloadUrl
-            ],
-            layout: "StandaloneLayout"
-          });
-        };
-      </script>
-    </body>
-    </html>
-  `;
-};
-
-router.use('/api-docs', swaggerUi.serve);
-router.get('/api-docs', (req, res) => {
-  res.send(customHtml(req));
+        </script>`
+    );
+    res.send(modifiedHtml);
+  } else {
+    // Regular swagger UI
+    swaggerUi.setup(swaggerDocument)(req, res, next);
+  }
 });
 
 module.exports = router;
