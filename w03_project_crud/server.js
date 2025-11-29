@@ -14,7 +14,12 @@ app
   .use(session({
     secret: process.env.SESSION_SECRET || "secret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
   }))
   // This is the basic express session({..}) initialization.
   .use(passport.initialize())
@@ -31,9 +36,14 @@ app
       'Access-Control-Allow-Methods',
       'POST, GET, PUT, PATCH, OPTIONS, DELETE'
     );
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
   })
-  .use(cors({ methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'], origin: '*' }))
+  .use(cors({ 
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'], 
+    origin: '*',
+    credentials: true
+  }))
   .use('/', require('./routes'));
 
 passport.use(new GitHubStrategy({
