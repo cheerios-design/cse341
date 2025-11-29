@@ -61,7 +61,7 @@ app.get('/auth/github/callback', passport.authenticate('github', {
     failureRedirect: '/api-docs', }),
   (req, res) => {
     req.session.user = req.user;
-    res.redirect('/');
+    res.redirect('/api-docs?login=success');
   });
 
 process.on('uncaughtException', (err, origin) => {
