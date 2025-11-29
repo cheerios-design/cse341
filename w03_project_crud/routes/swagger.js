@@ -5,5 +5,5 @@ const swaggerDocument = require('../swagger.json');
 
 router.use('/api-docs', swaggerUi.serve);
 router.get('/api-docs', swaggerUi.setup(swaggerDocument));
-
+host: https://cse341-crud-w03.onrender.com
 module.exports = router;
